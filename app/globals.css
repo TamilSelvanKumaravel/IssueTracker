@@ -3,25 +3,38 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-rgb: 0, 0, 0; /* Black Text */
+  --background-rgb: 255, 255, 255; /* White Background */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --foreground-rgb: 0, 0, 0; /* Keep text black */
+    --background-rgb: 255, 255, 255; /* Keep background white */
   }
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: rgb(var(--foreground-rgb)); /* Black Text */
+  background: rgb(var(--background-rgb)); /* White Background */
 }
+
+/* Remove bullets from list items */
+/* li {
+  list-style: none;
+}
+
+/* Remove underline from links 
+a {
+  text-decoration: none;
+}
+
+/* Optional: Improve link appearance 
+a {
+  color: inherit; /* Keeps the text color same as the surrounding text 
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: gray; /* Optional: Changes color on hover 
+} */
