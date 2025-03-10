@@ -1,6 +1,6 @@
 'use client'
-import { Button, TextField, TextFieldInput } from '@radix-ui/themes'
-import React from 'react'
+import { Button, Callout, TextField, TextFieldInput } from '@radix-ui/themes'
+import React, { useState } from 'react'
 import SimpleMDE from "react-simplemde-editor";
 import {useForm , Controller} from 'react-hook-form';
 import axios from 'axios';
@@ -14,26 +14,37 @@ interface IssueForm {
 
 const  NewIssuePage = () => {
   const router = useRouter();
-const {register , control , handleSubmit} = useForm<IssueForm>();
-console.log(register('title'));
+  const {register , control , handleSubmit} = useForm<IssueForm>();
+  const [error,setError] = useState('');
+  console.log(register('title'));
   return (
-    <form 
-      className='max-w-xl space-y-3' 
-      onSubmit={handleSubmit(async(data)=>{
-        await axios.post('/api/issues',data);
-        router.push('/issues');
-      })}>
-      <TextField.Root>
-          <TextField.Input placeholder='Title' {...register('title')}/>
-      </TextField.Root>
-      <Controller 
-        name='description'
-        control={control}
-        render={({field})=><SimpleMDE placeholder='Description' {...field}/> /*we can't use register by using spread operator way ,so we use contoller */}
-      />
-      
-      <Button>Submit New Issue</Button>
-    </form>
+    <div className='max-w-xl'>
+      {error && <Callout.Root color='red' className='mb-5'>
+          <Callout.Text>{error}</Callout.Text>
+        </Callout.Root>}
+      <form 
+        className='space-y-3' 
+        onSubmit={handleSubmit(async(data)=>{
+          try{
+            await axios.post('/api/issues',data);
+            router.push('/issues');
+          } catch (error){
+            // console.log(error)
+            setError('An unexpected error occurred.');
+          }
+        })}>
+        <TextField.Root>
+            <TextField.Input placeholder='Title' {...register('title')}/>
+        </TextField.Root>
+        <Controller 
+          name='description'
+          control={control}
+          render={({field})=><SimpleMDE placeholder='Description' {...field}/> /*we can't use register by using spread operator way ,so we use contoller */}
+        />
+        
+        <Button>Submit New Issue</Button>
+      </form>
+    </div>
   )
 }
 
